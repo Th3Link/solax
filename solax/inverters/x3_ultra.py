@@ -56,15 +56,6 @@ class X3Ultra(Inverter):
         }.get(run_mode)
 
     @classmethod
-    def _decode_battery_mode(cls, battery_mode):
-        return {
-            0: "Self Use Mode",
-            1: "Force Time Use",
-            2: "Back Up Mode",
-            3: "Feed-in Priority",
-        }.get(battery_mode)
-
-    @classmethod
     def response_decoder(cls):
         return {
             "Grid 1 Voltage": (0, Units.V, div10),
@@ -100,10 +91,16 @@ class X3Ultra(Inverter):
             "EPS 2 Power": (30, Units.W, to_signed),
             "EPS 3 Power": (31, Units.W, to_signed),
             "Grid Power ": (pack_u16(34, 35), Units.W, to_signed32),
-            "Battery 1 Voltage": (39, Units.V, div100),
-            "Battery 2 Voltage": (132, Units.V, div100),
-            "Battery Current": (40, Units.A, twoway_div100),
-            "Battery Power": (41, Units.W, to_signed),
+            "Battery 1 Voltage": (39, Units.V, div10),
+            "Battery 2 Voltage": (132, Units.V, div10),
+            "Battery 1 Current": (40, Units.A, twoway_div100),
+            "Battery 2 Current": (133, Units.A, twoway_div100),
+            "Battery 1 Power": (41, Units.W, to_signed),
+            "Battery 2 Power": (134, Units.W, to_signed),
+            "Battery 1 Remaining Capacity": (103, Units.PERCENT),
+            "Battery 2 Remaining Capacity": (140, Units.PERCENT),
+            "Battery 1 Temperature": (105, Units.C, to_signed),
+            "Battery 2 Temperature": (142, Units.C, to_signed),
             "Load/Generator Power": (47, Units.W, to_signed),
             "Radiator Temperature": (54, Units.C, to_signed),
             "Yield total": (pack_u16(58, 59), Total(Units.KWH), div10),
@@ -123,11 +120,10 @@ class X3Ultra(Inverter):
             "Grid Consumed Energy total": (pack_u16(88, 89), Total(Units.KWH), div100),
             "Feed-in Energy today": (pack_u16(90, 91), Total(Units.KWH), div100),
             "Grid Consumed Energy today": (pack_u16(92, 93), Total(Units.KWH), div100),
-            "Battery Remaining Capacity": (103, Units.PERCENT),
+            "Battery Remaining Capacity": (158, Units.PERCENT),
             "Battery Temperature": (105, Units.C, to_signed),
             "Battery Remaining Energy": (106, Units.KWH, div10),
-            "Battery mode": (168, Units.NONE),
-            "Battery mode text": (168, Units.NONE, X3Ultra._decode_battery_mode),
+            "Inverter Power": (159, Units.W, div10),
         }
 
     # pylint: enable=duplicate-code
