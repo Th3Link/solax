@@ -15,6 +15,7 @@ from solax.inverters import (
     X1Smart,
     X3HybridG4,
     X3MicProG2,
+    X3Ultra,
     XHybrid,
 )
 
@@ -24,6 +25,7 @@ REGISTRY = [
     X3,
     X3V34,
     X3HybridG4,
+    X3Ultra,
     X1,
     X1Mini,
     X1MiniV34,
